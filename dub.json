@@ -1,0 +1,9 @@
+{
+	"authors": [
+		"Michael Kohl"
+	],
+	"copyright": "Copyright © 2021, Michael Kohl",
+	"description": "Ray Tracing in One Weekend",
+	"license": "MIT",
+	"name": "oneweekend-d"
+}
