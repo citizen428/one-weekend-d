@@ -5,7 +5,8 @@
 	"configurations": [
 		{
 			"name": "executable",
-			"targetType": "library"
+			"targetType": "executable",
+			"targetName": "owe"
 		},
 		{
 			"dependencies": {

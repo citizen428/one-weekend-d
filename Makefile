@@ -1,16 +1,11 @@
 # vim:noexpandtab
 
-.PHONY: build clean run
+.PHONY: build clean
 
-dmd_opts = -de -w -unittest
 prog = owe
-main = source/$(prog).d
-
-run:
-	rdmd $(dmd_opts) $(main)
 
 build:
-	dmd $(dmd_opts) $(main)
+	dub
 
 clean:
-	rm $(prog) $(prog).o
+	rm $(prog)
