@@ -2,6 +2,19 @@
 	"authors": [
 		"Michael Kohl"
 	],
+	"configurations": [
+		{
+			"name": "executable",
+			"targetType": "library"
+		},
+		{
+			"dependencies": {
+				"silly": "~>1.1.1"
+			},
+			"name": "unittest",
+			"targetType": "library"
+		}
+	],
 	"copyright": "Copyright © 2021, Michael Kohl",
 	"description": "Ray Tracing in One Weekend",
 	"license": "MIT",
