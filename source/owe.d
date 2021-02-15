@@ -1,7 +1,10 @@
-import color;
 import std.conv : to;
 import std.format : format;
 import std.stdio;
+
+import color;
+import ray;
+import vec3;
 
 version (unittest)
 {
@@ -12,22 +15,32 @@ else
     void main()
     {
         // Image
-        const int imageWidth = 256;
+        const auto aspectRatio = 16.0 / 9.0;
+        const int imageWidth = 400;
+        const imageHeight = to!int(imageWidth / aspectRatio);
 
-        const imageHeight = 256;
+        // Camera
+        auto viewportHeight = 2.0;
+        auto viewportWidth = aspectRatio * viewportHeight;
+        auto focalLenght = 1.0;
+
+        auto origin = new Point(0, 0, 0);
+        auto horizontal = new Vec3(viewportWidth, 0, 0);
+        auto vertical = new Vec3(0, viewportHeight, 0);
+        auto lowerLeftCorner = origin - horizontal / 2 - vertical / 2 - new Vec3(0, 0, focalLenght);
 
         // Render
-        write(format("P3\n%s %s\n255\n", imageWidth, imageHeight));
+        writeln(format("P3\n%s %s\n255", imageWidth, imageHeight));
         for (int j = imageHeight - 1; j >= 0; --j)
         {
             stderr.write(format("\rScanlines remaining: %d", j));
             for (int i = 0; i < imageWidth; ++i)
             {
-                auto color = new Color(to!double(i) / (imageWidth - 1),
-                        to!double(j) / (imageHeight - 1),
-                        0.25);
-
-                writeColor(color);
+                auto u = to!double(i) / (imageWidth - 1);
+                auto v = to!double(j) / (imageHeight - 1);
+                auto r = new Ray(origin, lowerLeftCorner + u * horizontal + v * vertical - origin);
+                Color pixelColor = rayColor(r);
+                writeColor(pixelColor);
             }
         }
         stderr.writeln("\nDone.");
