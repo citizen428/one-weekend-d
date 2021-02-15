@@ -36,6 +36,18 @@ class Vec3
         return new Vec3(-x, -y, -z);
     }
 
+    override bool opEquals(Object o) const
+    {
+        if (auto other = cast(Vec3) o)
+        {
+            return x == other.x && y == other.y && z == other.z;
+        }
+        else
+        {
+            return false;
+        }
+    }
+
     void opOpAssign(string op)(const Vec3 vec) if (op == "+")
     {
         _x += vec.x;
