@@ -5,7 +5,7 @@
 prog = owe
 
 build:
-	dub
+	dub build
 
 clean:
 	rm $(prog)
