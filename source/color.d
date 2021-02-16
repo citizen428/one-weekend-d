@@ -3,6 +3,7 @@ import std.format : format;
 import std.stdio : writeln;
 
 import ray;
+import sphere;
 import vec3;
 
 alias Color = Vec3;
@@ -18,6 +19,11 @@ void writeColor(Color pixelColor)
 
 Color rayColor(Ray r)
 {
+    auto sphere = new Sphere(new Point(0, 0, -1), 0.5);
+    if (sphere.hitBy(r))
+    {
+        return new Color(1, 0, 0);
+    }
     auto unitDirection = r.direction.unitVector;
     auto t = 0.5 * (unitDirection.y + 1.0);
     // linearly blend white and blue
