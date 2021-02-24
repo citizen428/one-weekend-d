@@ -19,13 +19,14 @@ void writeColor(Color pixelColor)
 
 Color rayColor(Ray r)
 {
-    auto sphere = new Sphere(new Point(0, 0, -1), 0.5);
-    if (sphere.hitBy(r))
+    auto t = new Sphere(new Point(0, 0, -1), 0.5).hit(r);
+    if (t > 0.0)
     {
-        return new Color(1, 0, 0);
+        auto n = (r.at(t) - new Vec3(0, 0, -1));
+        return 0.5 * new Color(n.x + 1, n.y + 1, n.z + 1);
     }
     auto unitDirection = r.direction.unitVector;
-    auto t = 0.5 * (unitDirection.y + 1.0);
+    t = 0.5 * (unitDirection.y + 1.0);
     // linearly blend white and blue
     return (1.0 - t) * new Color(1.0, 1.0, 1.0) + t * new Color(0.5, 0.7, 1.0);
 }
