@@ -3,7 +3,9 @@ import std.format : format;
 import std.stdio;
 
 import color;
+import hittableList;
 import ray;
+import sphere;
 import vec3;
 
 version (unittest)
@@ -18,6 +20,11 @@ else
         const auto aspectRatio = 16.0 / 9.0;
         const int imageWidth = 400;
         const imageHeight = to!int(imageWidth / aspectRatio);
+
+        // World
+        auto world = new HittableList();
+        world.add(new Sphere(new Point(0, 0, -1), 0.5));
+        world.add(new Sphere(new Point(0, -100.5, -1), 100));
 
         // Camera
         auto viewportHeight = 2.0;
@@ -39,7 +46,7 @@ else
                 auto u = to!double(i) / (imageWidth - 1);
                 auto v = to!double(j) / (imageHeight - 1);
                 auto r = new Ray(origin, lowerLeftCorner + u * horizontal + v * vertical - origin);
-                Color pixelColor = rayColor(r);
+                Color pixelColor = rayColor(r, world);
                 writeColor(pixelColor);
             }
         }

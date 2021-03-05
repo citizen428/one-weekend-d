@@ -2,8 +2,10 @@ import std.conv : to;
 import std.format : format;
 import std.stdio : writeln;
 
+import hittable;
 import ray;
 import sphere;
+import util;
 import vec3;
 
 alias Color = Vec3;
@@ -17,16 +19,16 @@ void writeColor(Color pixelColor)
     writeln(format("%d %d %d", r, g, b));
 }
 
-Color rayColor(Ray r)
+Color rayColor(Ray r, Hittable world)
 {
-    auto t = new Sphere(new Point(0, 0, -1), 0.5).hit(r);
-    if (t > 0.0)
+    HitRecord rec;
+    if (world.hit(r, 0, infinity, rec))
     {
-        auto n = (r.at(t) - new Vec3(0, 0, -1));
-        return 0.5 * new Color(n.x + 1, n.y + 1, n.z + 1);
+        return 0.5 * (rec.normal + new Color(1.0, 1.0, 1.0));
     }
+
     auto unitDirection = r.direction.unitVector;
-    t = 0.5 * (unitDirection.y + 1.0);
+    auto t = 0.5 * (unitDirection.y + 1.0);
     // linearly blend white and blue
     return (1.0 - t) * new Color(1.0, 1.0, 1.0) + t * new Color(0.5, 0.7, 1.0);
 }

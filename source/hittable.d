@@ -8,7 +8,7 @@ struct HitRecord
     double t;
     bool frontFace;
 
-    pragma(inline):
+pragma(inline):
     void setFaceNormal(Ray r, Vec3 outwardNormal)
     {
         frontFace = r.direction.dot(outwardNormal) < 0;
