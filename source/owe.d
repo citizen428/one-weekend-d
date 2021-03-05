@@ -23,6 +23,7 @@ else
         const int imageWidth = 400;
         const imageHeight = to!int(imageWidth / aspectRatio);
         const int samplesPerPixel = 100;
+        const int maxDepth = 50;
 
         // World
         auto world = new HittableList();
@@ -45,7 +46,7 @@ else
                     auto u = (i + randomDouble) / (imageWidth - 1);
                     auto v = (j + randomDouble) / (imageHeight - 1);
                     auto r = camera.getRay(u, v);
-                    pixelColor += r.rayColor(world);
+                    pixelColor += r.rayColor(world, maxDepth);
                 }
                 writeColor(pixelColor, samplesPerPixel);
             }

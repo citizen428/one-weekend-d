@@ -45,7 +45,7 @@ class Sphere : Hittable
         return true;
     }
 
-private:
+    private:
     Point _center;
     double _radius;
 }

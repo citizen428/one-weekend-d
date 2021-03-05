@@ -4,6 +4,7 @@ import std.format : format;
 import std.stdio : writeln;
 
 import hittable;
+import hittableList;
 import ray;
 import sphere;
 import util;
@@ -22,12 +23,17 @@ void writeColor(Color pixelColor, int samplesPerPixel)
     writeln(format("%d %d %d", r.to!int, g.to!int, b.to!int));
 }
 
-Color rayColor(Ray r, Hittable world)
+Color rayColor(Ray r, ref HittableList world, int depth)
 {
     HitRecord rec;
+
+    if (depth <= 0) { return new Color(0, 0, 0); }
+
     if (world.hit(r, 0, infinity, rec))
     {
-        return 0.5 * (rec.normal + new Color(1.0, 1.0, 1.0));
+        Point target = rec.p + rec.normal + Vec3.randomInUnitSphere;
+        auto newRay = new Ray(rec.p, target - rec.p);
+        return 0.5 * rayColor(newRay, world, depth - 1);
     }
 
     auto unitDirection = r.direction.unitVector;

@@ -1,8 +1,33 @@
 import std.format : format;
 import std.math : sqrt;
 
+import util;
+
 class Vec3
 {
+    pragma(inline):
+    static Vec3 random()
+    {
+        return new Vec3(randomDouble, randomDouble, randomDouble);
+    }
+
+    pragma(inline):
+    static Vec3 random(double min, double max)
+    {
+        return new Vec3(randomDouble(min, max), randomDouble(min, max),
+                randomDouble(min, max));
+    }
+
+    static randomInUnitSphere()
+    {
+        while(true)
+        {
+            auto p = Vec3.random(-1, 1);
+            if (p.lengthSquared >= 1) { continue; }
+            return p;
+        }
+    }
+
     this(double e1, double e2, double e3)
     {
         _x = e1;
@@ -116,7 +141,7 @@ class Vec3
         return format("{X: %s, Y: %s, Z: %s}", x, y, z);
     }
 
-private:
+    private:
     double _x;
     double _y;
     double _z;
