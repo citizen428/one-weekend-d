@@ -1,6 +1,7 @@
 import std.algorithm.comparison : clamp;
 import std.conv : to;
 import std.format : format;
+import std.math : sqrt;
 import std.stdio : writeln;
 
 import hittable;
@@ -14,11 +15,11 @@ alias Color = Vec3;
 
 void writeColor(Color pixelColor, int samplesPerPixel)
 {
-    // Divide the color by the number of samples
+    // Divide the color by the number of samples and gamma correct
     auto scale = 1.0 / samplesPerPixel;
-    auto r = 256 * clamp(pixelColor.x * scale, 0.0, 0.999);
-    auto g = 256 * clamp(pixelColor.y * scale, 0.0, 0.999);
-    auto b = 256 * clamp(pixelColor.z * scale, 0.0, 0.999);
+    auto r = 256 * (pixelColor.x * scale).sqrt.clamp(0.0, 0.999);
+    auto g = 256 * (pixelColor.y * scale).sqrt.clamp(0.0, 0.999);
+    auto b = 256 * (pixelColor.z * scale).sqrt.clamp(0.0, 0.999);
 
     writeln(format("%d %d %d", r.to!int, g.to!int, b.to!int));
 }
