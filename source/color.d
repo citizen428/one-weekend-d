@@ -1,3 +1,4 @@
+import std.algorithm.comparison : clamp;
 import std.conv : to;
 import std.format : format;
 import std.stdio : writeln;
@@ -10,13 +11,15 @@ import vec3;
 
 alias Color = Vec3;
 
-void writeColor(Color pixelColor)
+void writeColor(Color pixelColor, int samplesPerPixel)
 {
-    const int r = to!int(255.999 * pixelColor.x);
-    const int g = to!int(255.999 * pixelColor.y);
-    const int b = to!int(255.999 * pixelColor.z);
+    // Divide the color by the number of samples
+    auto scale = 1.0 / samplesPerPixel;
+    auto r = 256 * clamp(pixelColor.x * scale, 0.0, 0.999);
+    auto g = 256 * clamp(pixelColor.y * scale, 0.0, 0.999);
+    auto b = 256 * clamp(pixelColor.z * scale, 0.0, 0.999);
 
-    writeln(format("%d %d %d", r, g, b));
+    writeln(format("%d %d %d", r.to!int, g.to!int, b.to!int));
 }
 
 Color rayColor(Ray r, Hittable world)

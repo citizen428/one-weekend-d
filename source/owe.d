@@ -2,10 +2,12 @@ import std.conv : to;
 import std.format : format;
 import std.stdio;
 
+import camera;
 import color;
 import hittableList;
 import ray;
 import sphere;
+import util;
 import vec3;
 
 version (unittest)
@@ -20,6 +22,7 @@ else
         const auto aspectRatio = 16.0 / 9.0;
         const int imageWidth = 400;
         const imageHeight = to!int(imageWidth / aspectRatio);
+        const int samplesPerPixel = 100;
 
         // World
         auto world = new HittableList();
@@ -27,14 +30,7 @@ else
         world.add(new Sphere(new Point(0, -100.5, -1), 100));
 
         // Camera
-        auto viewportHeight = 2.0;
-        auto viewportWidth = aspectRatio * viewportHeight;
-        auto focalLenght = 1.0;
-
-        auto origin = new Point(0, 0, 0);
-        auto horizontal = new Vec3(viewportWidth, 0, 0);
-        auto vertical = new Vec3(0, viewportHeight, 0);
-        auto lowerLeftCorner = origin - horizontal / 2 - vertical / 2 - new Vec3(0, 0, focalLenght);
+        auto camera = new Camera();
 
         // Render
         writeln(format("P3\n%s %s\n255", imageWidth, imageHeight));
@@ -43,11 +39,15 @@ else
             stderr.write(format("\rScanlines remaining: %d", j));
             for (int i = 0; i < imageWidth; ++i)
             {
-                auto u = to!double(i) / (imageWidth - 1);
-                auto v = to!double(j) / (imageHeight - 1);
-                auto r = new Ray(origin, lowerLeftCorner + u * horizontal + v * vertical - origin);
-                Color pixelColor = rayColor(r, world);
-                writeColor(pixelColor);
+                auto pixelColor = new Color(0, 0, 0);
+                for (int s = 0; s < samplesPerPixel; ++s)
+                {
+                    auto u = (i + randomDouble) / (imageWidth - 1);
+                    auto v = (j + randomDouble) / (imageHeight - 1);
+                    auto r = camera.getRay(u, v);
+                    pixelColor += r.rayColor(world);
+                }
+                writeColor(pixelColor, samplesPerPixel);
             }
         }
         stderr.writeln("\nDone.");

@@ -5,8 +5,8 @@
 	"configurations": [
 		{
 			"name": "executable",
-			"targetType": "executable",
-			"targetName": "owe"
+			"targetName": "owe",
+			"targetType": "executable"
 		},
 		{
 			"dependencies": {
@@ -17,6 +17,9 @@
 		}
 	],
 	"copyright": "Copyright © 2021, Michael Kohl",
+	"dependencies": {
+		"serve-d": "~>0.6.0"
+	},
 	"description": "Ray Tracing in One Weekend",
 	"license": "MIT",
 	"name": "oneweekend-d"
