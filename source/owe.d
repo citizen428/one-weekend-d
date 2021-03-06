@@ -5,6 +5,8 @@ import std.stdio;
 import camera;
 import color;
 import hittableList;
+import lambertian;
+import metal;
 import ray;
 import sphere;
 import util;
@@ -27,8 +29,16 @@ else
 
         // World
         auto world = new HittableList();
-        world.add(new Sphere(new Point(0, 0, -1), 0.5));
-        world.add(new Sphere(new Point(0, -100.5, -1), 100));
+
+        auto materialGround = new Lambertian(new Color(0.8, 0.8, 0.0));
+        auto materialCenter = new Lambertian(new Color(0.7, 0.3, 0.3));
+        auto materialLeft = new Metal(new Color(0.8, 0.8, 0.8));
+        auto materialRight = new Metal(new Color(0.8, 0.6, 0.2));
+
+        world.add(new Sphere(new Point(0.0, -100.5, 1), 100, materialGround));
+        world.add(new Sphere(new Point(0, 0, -1), 0.5, materialCenter));
+        world.add(new Sphere(new Point(-1, 0, -1), 0.5, materialLeft));
+        world.add(new Sphere(new Point(1, 0, -1), 0.5, materialRight));
 
         // Camera
         auto camera = new Camera();

@@ -28,13 +28,18 @@ Color rayColor(Ray r, ref HittableList world, int depth)
 {
     HitRecord rec;
 
+    // If we've exceeded the ray bounce limit, no more light is gathered.
     if (depth <= 0) { return new Color(0, 0, 0); }
 
-    if (world.hit(r, 0, infinity, rec))
+    if (world.hit(r, 0.001, infinity, rec))
     {
-        Point target = rec.p + rec.normal + Vec3.randomInUnitSphere;
-        auto newRay = new Ray(rec.p, target - rec.p);
-        return 0.5 * rayColor(newRay, world, depth - 1);
+        Ray scattered;
+        Color attenuation;
+
+        if (rec.mat.scatter(r, rec, attenuation, scattered))
+        {
+            return attenuation * rayColor(scattered, world, depth - 1);
+        }
     }
 
     auto unitDirection = r.direction.unitVector;

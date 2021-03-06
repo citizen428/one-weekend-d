@@ -1,18 +1,18 @@
 import std.format : format;
-import std.math : sqrt;
+import std.math : fabs, sqrt;
 
 import util;
 
 class Vec3
 {
     pragma(inline):
-    static Vec3 random()
+        static Vec3 random()
     {
         return new Vec3(randomDouble, randomDouble, randomDouble);
     }
 
     pragma(inline):
-    static Vec3 random(double min, double max)
+        static Vec3 random(double min, double max)
     {
         return new Vec3(randomDouble(min, max), randomDouble(min, max),
                 randomDouble(min, max));
@@ -26,6 +26,11 @@ class Vec3
             if (p.lengthSquared >= 1) { continue; }
             return p;
         }
+    }
+
+    static randomUnitVector()
+    {
+        return randomInUnitSphere.unitVector;
     }
 
     this(double e1, double e2, double e3)
@@ -134,6 +139,17 @@ class Vec3
     Vec3 unitVector()
     {
         return this / this.length;
+    }
+
+    bool nearZero() const
+    {
+        const auto s = 1e-8;
+        return (x.fabs < s) && (y.fabs < s) && (z.fabs < s);
+    }
+
+    Vec3 reflect(Vec3 n)
+    {
+        return this - 2 * this.dot(n) * n;
     }
 
     override string toString()

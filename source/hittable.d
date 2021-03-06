@@ -1,3 +1,4 @@
+import material;
 import ray;
 import vec3;
 
@@ -5,6 +6,7 @@ struct HitRecord
 {
     Point p;
     Vec3 normal;
+    Material mat;
     double t;
     bool frontFace;
 

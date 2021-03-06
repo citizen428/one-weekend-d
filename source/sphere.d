@@ -1,15 +1,17 @@
 import std.math : sqrt;
 
 import hittable;
+import material;
 import ray;
 import vec3;
 
 class Sphere : Hittable
 {
-    this(Point center, double radius)
+    this(Point center, double radius, Material mat)
     {
         _center = center;
         _radius = radius;
+        _mat = mat;
     }
 
     override bool hit(Ray r, double tMin, double tMax, ref HitRecord rec)
@@ -39,6 +41,7 @@ class Sphere : Hittable
 
         rec.t = root;
         rec.p = r.at(rec.t);
+        rec.mat = _mat;
         Vec3 outwardNormal = (rec.p - _center) / _radius;
         rec.setFaceNormal(r, outwardNormal);
 
@@ -48,4 +51,5 @@ class Sphere : Hittable
     private:
     Point _center;
     double _radius;
+    Material _mat;
 }
