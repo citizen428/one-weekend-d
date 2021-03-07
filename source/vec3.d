@@ -1,5 +1,5 @@
 import std.format : format;
-import std.math : fabs, sqrt;
+import std.math : fabs, fmin, sqrt;
 
 import util;
 
@@ -150,6 +150,14 @@ class Vec3
     Vec3 reflect(Vec3 n)
     {
         return this - 2 * this.dot(n) * n;
+    }
+
+    Vec3 refract(Vec3 n, double etaiOverEtat)
+    {
+        auto cosTheta = (-this).dot(n).fmin(1.0);
+        Vec3 rOutperp = etaiOverEtat * (this + cosTheta * n);
+        Vec3 rOutParallel = -sqrt((1.0 - rOutperp.lengthSquared).fabs) * n;
+        return rOutperp + rOutParallel;
     }
 
     override string toString()

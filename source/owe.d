@@ -4,6 +4,7 @@ import std.stdio;
 
 import camera;
 import color;
+import dielectric;
 import hittableList;
 import lambertian;
 import metal;
@@ -31,13 +32,14 @@ else
         auto world = new HittableList();
 
         auto materialGround = new Lambertian(new Color(0.8, 0.8, 0.0));
-        auto materialCenter = new Lambertian(new Color(0.7, 0.3, 0.3));
-        auto materialLeft = new Metal(new Color(0.8, 0.8, 0.8), 0.3);
-        auto materialRight = new Metal(new Color(0.8, 0.6, 0.2), 1.0);
+        auto materialCenter = new Lambertian(new Color(0.1, 0.2, 0.5));
+        auto materialLeft = new Dielectric(1.5);
+        auto materialRight = new Metal(new Color(0.8, 0.6, 0.2), 0.0);
 
         world.add(new Sphere(new Point(0.0, -100.5, 1), 100, materialGround));
         world.add(new Sphere(new Point(0, 0, -1), 0.5, materialCenter));
         world.add(new Sphere(new Point(-1, 0, -1), 0.5, materialLeft));
+        world.add(new Sphere(new Point(-1, 0, -1), -0.4, materialLeft));
         world.add(new Sphere(new Point(1, 0, -1), 0.5, materialRight));
 
         // Camera
