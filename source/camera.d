@@ -1,31 +1,44 @@
+import std.math : tan;
+
 import ray;
+import util;
 import vec3;
 
 class Camera
 {
-    this()
+    this(
+            Point lookFrom,
+            Point lookAt,
+            Vec3 vup,
+            double vFov,
+            double aspectRatio
+        )
     {
-        auto aspectRatio = 16.0 / 9.0;
-        auto viewportHeight = 2.0;
+        auto theta = vFov.degreesToRadians;
+        auto h = (theta / 2).tan;
+        auto viewportHeight = h * 2.0;
         auto viewportWidth = aspectRatio * viewportHeight;
-        auto focalLength = 1.0;
 
-        _origin = new Point(0, 0, 0);
-        _horizontal = new Vec3(viewportWidth, 0, 0);
-        _vertical = new Vec3(0, viewportHeight, 0);
-        _lowerLeftCorner = _origin - _horizontal / 2 - _vertical / 2 -
-            new Vec3(0, 0, focalLength);
+        auto w = (lookFrom - lookAt).unitVector;
+        auto u = vup.cross(w).unitVector;
+        auto v = w.cross(u);
+
+        origin = lookFrom;
+        horizontal = viewportWidth * u;
+        vertical = viewportHeight * v;
+        lowerLeftCorner = origin - horizontal / 2 - vertical / 2 - w;
+
     }
 
-    Ray getRay(double u, double v)
+    Ray getRay(double s, double t)
     {
-        return new Ray(_origin, _lowerLeftCorner + u * _horizontal +
-                v * _vertical - _origin);
+        return new Ray(origin, lowerLeftCorner + s * horizontal + t * vertical -
+                origin);
     }
 
-private:
-    Point _origin;
-    Point _lowerLeftCorner;
-    Vec3 _horizontal;
-    Vec3 _vertical;
+    private:
+    Point origin;
+    Point lowerLeftCorner;
+    Vec3 horizontal;
+    Vec3 vertical;
 }

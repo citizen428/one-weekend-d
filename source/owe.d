@@ -1,5 +1,6 @@
 import std.conv : to;
 import std.format : format;
+import std.math : cos;
 import std.stdio;
 
 import camera;
@@ -43,7 +44,10 @@ else
         world.add(new Sphere(new Point(1, 0, -1), 0.5, materialRight));
 
         // Camera
-        auto camera = new Camera();
+        auto lookFrom = new Point(-2, 2, 1);
+        auto lookAt = new Point(0, 0, -1);
+        auto vup = new Vec3(0, 1, 0);
+        auto camera = new Camera(lookFrom, lookAt, vup, 20, aspectRatio);
 
         // Render
         writeln(format("P3\n%s %s\n255", imageWidth, imageHeight));
