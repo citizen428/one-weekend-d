@@ -20,7 +20,7 @@ class Vec3
 
     static randomInUnitSphere()
     {
-        while(true)
+        while (true)
         {
             auto p = Vec3.random(-1, 1);
             if (p.lengthSquared >= 1) { continue; }
@@ -31,6 +31,16 @@ class Vec3
     static randomUnitVector()
     {
         return randomInUnitSphere.unitVector;
+    }
+
+    static randomInUnitDisk()
+    {
+        while (true)
+        {
+            auto p = new Vec3(randomDouble(-1, 1), randomDouble(-1, 1), 0);
+            if (p.lengthSquared >= 1) { continue; }
+            return p;
+        }
     }
 
     this(double e1, double e2, double e3)
