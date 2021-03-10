@@ -80,7 +80,7 @@ else
         const auto aspectRatio = 3.0 / 2.0;
         const int imageWidth = 1200;
         const imageHeight = (imageWidth / aspectRatio).to!int;
-        const int samplesPerPixel = 500;
+        const int samplesPerPixel = 250;
         const int maxDepth = 50;
 
         // World
