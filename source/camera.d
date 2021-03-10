@@ -6,20 +6,13 @@ import vec3;
 
 class Camera
 {
-    this(
-            Point lookFrom,
-            Point lookAt,
-            Vec3 vup,
-            double vFov,
-            double aspectRatio,
-            double aperture,
-            double focusDist
-        )
+    this(Point lookFrom, Point lookAt, Vec3 vup, double vFov, double aspectRatio,
+            double aperture, double focusDist)
     {
-        auto theta = vFov.degreesToRadians;
-        auto h = (theta / 2).tan;
-        auto viewportHeight = h * 2.0;
-        auto viewportWidth = aspectRatio * viewportHeight;
+        const auto theta = vFov.degreesToRadians;
+        const auto h = (theta / 2).tan;
+        const auto viewportHeight = h * 2.0;
+        const auto viewportWidth = aspectRatio * viewportHeight;
 
         w = (lookFrom - lookAt).unitVector;
         u = vup.cross(w).unitVector;
@@ -38,11 +31,11 @@ class Camera
         Vec3 rd = lensRadius * Vec3.randomInUnitDisk;
         Vec3 offset = u * rd.x + v * rd.y;
 
-        return new Ray(origin + offset, lowerLeftCorner + s * horizontal +
-                t * vertical - origin - offset);
+        return new Ray(origin + offset, lowerLeftCorner + s * horizontal + t
+                * vertical - origin - offset);
     }
 
-    private:
+private:
     Point origin;
     Point lowerLeftCorner;
     Vec3 horizontal;

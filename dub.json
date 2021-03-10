@@ -5,7 +5,7 @@
 	"configurations": [
 		{
 			"name": "executable",
-			"targetName": "owe",
+			"targetName": "rtow",
 			"targetType": "executable"
 		},
 		{

@@ -5,7 +5,6 @@ import std.math : sqrt;
 import std.stdio : writeln;
 
 import hittable;
-import hittableList;
 import ray;
 import sphere;
 import util;
@@ -24,12 +23,15 @@ void writeColor(Color pixelColor, int samplesPerPixel)
     writeln(format("%d %d %d", r.to!int, g.to!int, b.to!int));
 }
 
-Color rayColor(Ray r, ref HittableList world, int depth)
+Color rayColor(ref Ray r, ref HittableList world, int depth)
 {
     HitRecord rec;
 
     // If we've exceeded the ray bounce limit, no more light is gathered.
-    if (depth <= 0) { return new Color(0, 0, 0); }
+    if (depth <= 0)
+    {
+        return new Color(0, 0, 0);
+    }
 
     if (world.hit(r, 0.001, infinity, rec))
     {
@@ -42,7 +44,7 @@ Color rayColor(Ray r, ref HittableList world, int depth)
         }
     }
 
-    auto unitDirection = r.direction.unitVector;
+    const auto unitDirection = r.direction.unitVector;
     auto t = 0.5 * (unitDirection.y + 1.0);
     // linearly blend white and blue
     return (1.0 - t) * new Color(1.0, 1.0, 1.0) + t * new Color(0.5, 0.7, 1.0);

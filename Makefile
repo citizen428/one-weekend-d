@@ -2,7 +2,7 @@
 
 .PHONY: build clean
 
-prog = owe
+prog = rtow
 
 build:
 	dub build

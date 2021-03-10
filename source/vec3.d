@@ -5,17 +5,16 @@ import util;
 
 class Vec3
 {
-    pragma(inline):
-        static Vec3 random()
+pragma(inline):
+    static Vec3 random()
     {
         return new Vec3(randomDouble, randomDouble, randomDouble);
     }
 
-    pragma(inline):
-        static Vec3 random(double min, double max)
+pragma(inline):
+    static Vec3 random(double min, double max)
     {
-        return new Vec3(randomDouble(min, max), randomDouble(min, max),
-                randomDouble(min, max));
+        return new Vec3(randomDouble(min, max), randomDouble(min, max), randomDouble(min, max));
     }
 
     static randomInUnitSphere()
@@ -23,7 +22,10 @@ class Vec3
         while (true)
         {
             auto p = Vec3.random(-1, 1);
-            if (p.lengthSquared >= 1) { continue; }
+            if (p.lengthSquared >= 1)
+            {
+                continue;
+            }
             return p;
         }
     }
@@ -38,7 +40,10 @@ class Vec3
         while (true)
         {
             auto p = new Vec3(randomDouble(-1, 1), randomDouble(-1, 1), 0);
-            if (p.lengthSquared >= 1) { continue; }
+            if (p.lengthSquared >= 1)
+            {
+                continue;
+            }
             return p;
         }
     }
@@ -164,7 +169,7 @@ class Vec3
 
     Vec3 refract(Vec3 n, double etaiOverEtat)
     {
-        auto cosTheta = (-this).dot(n).fmin(1.0);
+        const auto cosTheta = (-this).dot(n).fmin(1.0);
         Vec3 rOutperp = etaiOverEtat * (this + cosTheta * n);
         Vec3 rOutParallel = -sqrt((1.0 - rOutperp.lengthSquared).fabs) * n;
         return rOutperp + rOutParallel;
@@ -175,7 +180,7 @@ class Vec3
         return format("{X: %s, Y: %s, Z: %s}", x, y, z);
     }
 
-    private:
+private:
     double _x;
     double _y;
     double _z;
@@ -210,6 +215,6 @@ unittest
     assert(v1.dot(v2) == 10);
     assert(v1.cross(v2).toString == "{X: -4, Y: 8, Z: -4}");
     auto vec3 = new Vec3(1, 5, 1);
-    auto expected = vec3 / vec3.length;
+    const auto expected = vec3 / vec3.length;
     assert(vec3.unitVector.toString == expected.toString);
 }

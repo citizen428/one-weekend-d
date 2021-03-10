@@ -5,11 +5,8 @@ import std.stdio;
 
 import camera;
 import color;
-import dielectric;
-import hittableList;
-import lambertian;
+import hittable;
 import material;
-import metal;
 import ray;
 import sphere;
 import util;
@@ -28,11 +25,11 @@ else
         auto groudMaterial = new Lambertian(new Color(0.5, 0.5, 0.5));
         world.add(new Sphere(new Point(0, -1000, 0), 1000, groudMaterial));
 
-        foreach(a; -11 .. 11)
+        foreach (a; -11 .. 11)
         {
-            foreach(b; -11 .. 11)
+            foreach (b; -11 .. 11)
             {
-                auto chooseMat = randomDouble;
+                const auto chooseMat = randomDouble;
                 auto center = new Point(a + 0.9 * randomDouble, 0.2, b + 0.9 * randomDouble);
 
                 if ((center - new Point(4, 0.2, 0)).length > 0.9)

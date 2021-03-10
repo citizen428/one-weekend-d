@@ -14,19 +14,19 @@ class Sphere : Hittable
         _mat = mat;
     }
 
-    override bool hit(Ray r, double tMin, double tMax, ref HitRecord rec)
+    override bool hit(ref Ray r, double tMin, double tMax, ref HitRecord rec)
     {
         auto oc = r.origin - _center;
-        auto a = r.direction.lengthSquared;
-        auto halfB = oc.dot(r.direction);
-        auto c = oc.lengthSquared - _radius * _radius;
+        const auto a = r.direction.lengthSquared;
+        const auto halfB = oc.dot(r.direction);
+        const auto c = oc.lengthSquared - _radius * _radius;
 
-        auto discriminant = halfB * halfB - a * c;
+        const auto discriminant = halfB * halfB - a * c;
         if (discriminant < 0)
         {
             return false;
         }
-        auto sqrtd = discriminant.sqrt;
+        immutable auto sqrtd = discriminant.sqrt;
 
         // Find the nearest root within acceptable range
         auto root = (-halfB - sqrtd) / a;
@@ -48,7 +48,7 @@ class Sphere : Hittable
         return true;
     }
 
-    private:
+private:
     Point _center;
     double _radius;
     Material _mat;
