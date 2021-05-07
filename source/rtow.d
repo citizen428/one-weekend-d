@@ -7,6 +7,7 @@ import camera;
 import color;
 import hittable;
 import material;
+import movingSphere;
 import ray;
 import sphere;
 import util;
@@ -41,6 +42,8 @@ else
                         // diffuse
                         auto albedo = Color.random * Color.random;
                         sphereMaterial = new Lambertian(albedo);
+                        auto center2 = center + new Vec3(0, randomDouble(0, 0.5), 0);
+                        world.add(new MovingSphere(center, center2, 0, 1, 0.2, sphereMaterial));
                     }
                     else if (chooseMat < 0.95)
                     {
@@ -74,10 +77,10 @@ else
     void main()
     {
         // Image
-        const auto aspectRatio = 3.0 / 2.0;
-        const int imageWidth = 1200;
+        const auto aspectRatio = 16.0 / 9.0;
+        const int imageWidth = 400;
         const imageHeight = (imageWidth / aspectRatio).to!int;
-        const int samplesPerPixel = 250;
+        const int samplesPerPixel = 50;
         const int maxDepth = 50;
 
         // World
@@ -90,7 +93,8 @@ else
         auto distToFocus = 10.0;
         auto aperture = 0.1;
 
-        auto camera = new Camera(lookFrom, lookAt, vup, 20, aspectRatio, aperture, distToFocus);
+        auto camera = new Camera(lookFrom, lookAt, vup, 20, aspectRatio,
+                aperture, distToFocus, 0, 1);
 
         // Render
         writeln(format("P3\n%s %s\n255", imageWidth, imageHeight));

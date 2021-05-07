@@ -15,6 +15,13 @@ class Ray
         _direction = direction;
     }
 
+    this(Point origin, Vec3 direction, double _time = 0.0)
+    {
+        _origin = origin;
+        _direction = direction;
+        time = _time;
+    }
+
     Point origin()
     {
         return _origin;
@@ -29,6 +36,9 @@ class Ray
     {
         return origin + t * direction;
     }
+
+public:
+    double time;
 
 private:
     Point _origin;

@@ -40,7 +40,7 @@ class Dielectric : Material
             direction = unitDirection.refract(rec.normal, refractionRatio);
         }
 
-        scattered = new Ray(rec.p, direction);
+        scattered = new Ray(rec.p, direction, rIn.time);
         return true;
     }
 
@@ -73,7 +73,7 @@ class Lambertian : Material
             scatterDirection = rec.normal;
         }
 
-        scattered = new Ray(rec.p, scatterDirection);
+        scattered = new Ray(rec.p, scatterDirection, rIn.time);
         attenuation = albedo;
         return true;
     }
@@ -93,7 +93,7 @@ class Metal : Material
     override bool scatter(ref Ray rIn, ref HitRecord rec, ref Color attenuation, ref Ray scattered)
     {
         Vec3 reflected = rIn.direction.unitVector.reflect(rec.normal);
-        scattered = new Ray(rec.p, reflected + fuzz * Vec3.randomInUnitSphere);
+        scattered = new Ray(rec.p, reflected + fuzz * Vec3.randomInUnitSphere, rIn.time);
         attenuation = albedo;
         return scattered.direction.dot(rec.normal) > 0;
     }
