@@ -1,4 +1,6 @@
+.devcontainer/
 .dub
+bin/
 docs.json
 __dummy.html
 docs/
@@ -13,4 +15,3 @@ oneweekend-d-test-*
 *.o
 *.obj
 *.lst
-rtow
