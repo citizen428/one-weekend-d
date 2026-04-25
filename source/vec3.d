@@ -93,6 +93,15 @@ pragma(inline):
         }
     }
 
+    override size_t toHash() const
+    {
+        size_t hash = 7;
+        hash = 31 * hash + typeid(_x).getHash(&_x);
+        hash = 31 * hash + typeid(_y).getHash(&_y);
+        hash = 31 * hash + typeid(_z).getHash(&_z);
+        return hash;
+    }
+
     void opOpAssign(string op)(const Vec3 vec) if (op == "+")
     {
         _x += vec.x;
@@ -175,7 +184,7 @@ pragma(inline):
         return rOutperp + rOutParallel;
     }
 
-    override string toString()
+    override string toString() const
     {
         return format("{X: %s, Y: %s, Z: %s}", x, y, z);
     }
