@@ -1,0 +1,18 @@
+name "oneweekend-d"
+description "Ray Tracing in One Weekend"
+authors "Michael Kohl"
+copyright "Copyright © 2021, Michael Kohl"
+license "MIT"
+
+configuration "application" {
+	targetType "executable"
+	targetName "rtow"
+	targetPath "bin/"
+}
+
+configuration "unittest" {
+	dependency "silly" version="~>1.1.1"
+	targetType "library"
+	targetName "unittest"
+	targetPath "bin/"
+}
