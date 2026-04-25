@@ -1,11 +1,17 @@
 # vim:noexpandtab
 
-.PHONY: build clean
+.PHONY: run
+run:
+	dub run
 
-prog = rtow
-
+.PHONY: build
 build:
-	dub build
+	dub build -c=application -b release
 
+.PHONY: test
+test:
+	dub test
+
+.PHONY: clean
 clean:
-	rm $(prog)
+	rm -f bin/*
