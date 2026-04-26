@@ -15,3 +15,7 @@ test:
 .PHONY: clean
 clean:
 	rm -f bin/*
+
+.PHONY: optipng
+optipng:
+	optipng -o9 -strip all images/*
