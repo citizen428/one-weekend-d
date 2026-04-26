@@ -7,7 +7,7 @@ import vec3;
 class Camera
 {
     this(Point lookFrom, Point lookAt, Vec3 vup, double vFov, double aspectRatio,
-            double aperture, double focusDist, double _time0 = 0, double _time1 = 0)
+        double aperture, double focusDist, double _time0 = 0, double _time1 = 0)
     {
         const auto theta = vFov.degreesToRadians;
         const auto h = (theta / 2).tan;
@@ -34,8 +34,8 @@ class Camera
         Vec3 offset = u * rd.x + v * rd.y;
 
         return new Ray(origin + offset,
-                lowerLeftCorner + s * horizontal + t * vertical - origin - offset,
-                randomDouble(time0, time1));
+            lowerLeftCorner + s * horizontal + t * vertical - origin - offset,
+            randomDouble(time0, time1));
     }
 
 private:

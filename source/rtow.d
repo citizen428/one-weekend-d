@@ -94,7 +94,7 @@ else
         auto aperture = 0.1;
 
         auto camera = new Camera(lookFrom, lookAt, vup, 20, aspectRatio,
-                aperture, distToFocus, 0, 1);
+            aperture, distToFocus, 0, 1);
 
         // Render
         writeln(format("P3\n%s %s\n255", imageWidth, imageHeight));
