@@ -23,8 +23,8 @@ else
     {
         auto world = new HittableList();
 
-        auto groudMaterial = new Lambertian(new Color(0.5, 0.5, 0.5));
-        world.add(new Sphere(new Point(0, -1000, 0), 1000, groudMaterial));
+        auto groundMaterial = new Lambertian(new Color(0.5, 0.5, 0.5));
+        world.add(new Sphere(new Point(0, -1000, 0), 1000, groundMaterial));
 
         foreach (a; -11 .. 11)
         {
